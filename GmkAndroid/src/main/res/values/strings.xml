@@ -1,0 +1,9 @@
+<resources>
+  <string name="app_name">gmk</string>
+  <string name="title_activity_main">Map</string>
+  <string name="action_settings">Settings</string>
+
+  <!--MapBox API-->
+  <string name="mbxMapId">frive.d226853e</string>
+  <string name="mbxAccessToken">pk.eyJ1IjoiZnJpdmUiLCJhIjoiOGU1MDg0YzczMTRlOTJlYjc3MjAwZTk4OWUzZDExMTcifQ.FAgkhSGfjgg1LpEIlTlX9w</string>
+</resources>
