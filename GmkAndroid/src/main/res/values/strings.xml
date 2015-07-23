@@ -3,7 +3,10 @@
   <string name="title_activity_main">Map</string>
   <string name="action_settings">Settings</string>
 
+  <!--Gmk API-->
+  <string name="gmk_endpoint">http://10.30.1.99</string>
+
   <!--MapBox API-->
-  <string name="mbxMapId">frive.d226853e</string>
-  <string name="mbxAccessToken">pk.eyJ1IjoiZnJpdmUiLCJhIjoiOGU1MDg0YzczMTRlOTJlYjc3MjAwZTk4OWUzZDExMTcifQ.FAgkhSGfjgg1LpEIlTlX9w</string>
+  <string name="mbx_map_id">frive.d226853e</string>
+  <string name="mbx_access_token">pk.eyJ1IjoiZnJpdmUiLCJhIjoiOGU1MDg0YzczMTRlOTJlYjc3MjAwZTk4OWUzZDExMTcifQ.FAgkhSGfjgg1LpEIlTlX9w</string>
 </resources>
