@@ -1,10 +1,11 @@
-package com.gmk.gmkandroid.activity;
+package com.gmk.gmkandroid.ui.activity;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.cocoahero.android.geojson.FeatureCollection;
 import com.cocoahero.android.geojson.Feature;
 import com.cocoahero.android.geojson.GeoJSON;
@@ -28,15 +29,14 @@ import retrofit.client.Response;
 import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.service.GmkService;
 
-public class MapActivity extends ActionBarActivity {
-
-  private MapView mv;
+public class MapActivity extends BaseActivity {
+  @Bind(R.id.mapview) MapView mv;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_map);
+    ButterKnife.bind(this);
 
-    mv = (MapView) findViewById(R.id.mapview);
     mv.setMinZoomLevel(mv.getTileProvider().getMinimumZoomLevel());
     mv.setMaxZoomLevel(mv.getTileProvider().getMaximumZoomLevel());
     mv.setCenter(mv.getTileProvider().getCenterCoordinate());
@@ -57,7 +57,7 @@ public class MapActivity extends ActionBarActivity {
     Map query  = new HashMap();
     query.put("lat", userLocation.getLatitude());
     query.put("lon", userLocation.getLongitude());
-    query.put("distance", "3km");
+    query.put("distance", 3);
 
     api.searchPlaces(query, new Callback<Response>() {
       @Override public void success(Response resp, Response response) {
@@ -67,14 +67,16 @@ public class MapActivity extends ActionBarActivity {
 
           for (Feature f : featureCollection.getFeatures()) {
             JSONArray coordinates = (JSONArray) f.getGeometry().toJSON().get("coordinates");
-            JSONObject markerProps = f.getProperties().getJSONObject("mapbox").getJSONObject("marker");
+            JSONObject markerProps = f.getProperties().getJSONObject("mapbox")
+                .getJSONObject("marker");
 
             double lat = (Double) coordinates.get(0);
             double lon = (Double) coordinates.get(1);
 
             Marker marker = new Marker(mv, "", "", new LatLng(lat, lon));
             marker.setIcon(
-                new Icon(getApplicationContext(), Icon.Size.LARGE, markerProps.getString("symbol"), markerProps.getString("color")));
+                new Icon(getApplicationContext(), Icon.Size.LARGE, markerProps.getString("symbol"),
+                    markerProps.getString("color")));
             mv.addMarker(marker);
           }
         } catch (IOException e) {
@@ -93,7 +95,7 @@ public class MapActivity extends ActionBarActivity {
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+    getMenuInflater().inflate(R.menu.menu_map, menu);
     return true;
   }
 

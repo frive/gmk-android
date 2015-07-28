@@ -10,7 +10,7 @@ android {
 
   defaultConfig {
     applicationId "com.gmk.gmkandroid"
-    minSdkVersion 15
+    minSdkVersion 9
     targetSdkVersion 22
     versionCode 1
     versionName "1.0"
@@ -25,11 +25,31 @@ android {
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:appcompat-v7:22.2.0'
+
   compile 'com.google.code.gson:gson:2.3.1'
+
+  // Android Support Libs
+  compile 'com.android.support:design:22.2.1'
+  compile 'com.android.support:appcompat-v7:22.2.1'
+
+  // HTTP
   compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
   compile 'com.squareup.okhttp:okhttp:2.4.0'
   compile 'com.squareup.retrofit:retrofit:1.9.0'
+
+  // Image
+  compile 'com.squareup.picasso:picasso:2.5.2'
+
+ // Icons
+  compile 'com.github.theDazzler:droidicon:0.1.9@aar'
+
+  // View Injection
+  compile 'com.jakewharton:butterknife:7.0.1'
+
+  // Background Processing
+  compile 'com.path:android-priority-jobqueue:1.1.2'
+
+  // Mapbox
   compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:0.7.4@aar'){
     transitive=true
   }
