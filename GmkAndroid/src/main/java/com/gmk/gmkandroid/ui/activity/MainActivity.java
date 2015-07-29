@@ -1,6 +1,8 @@
 package com.gmk.gmkandroid.ui.activity;
 
 import android.os.Bundle;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -9,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.adapter.TabPagerAdapter;
@@ -34,17 +37,15 @@ public class MainActivity extends BaseActivity {
     }
 
     if (viewPager != null) {
-      TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager(), MainActivity.this);
-      adapter.addFragment(new HomeFragment(), "Home");
-      adapter.addFragment(new FaveFragment(), "Fave");
-      adapter.addFragment(new EventFragment(), "Event");
-      adapter.addFragment(new GroupFragment(), "Group");
+      TabPagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
+      adapter.addFragment(new HomeFragment());
+      adapter.addFragment(new FaveFragment());
+      adapter.addFragment(new EventFragment());
+      adapter.addFragment(new GroupFragment());
       viewPager.setAdapter(adapter);
     }
 
-    // Give the TabLayout the ViewPager
-    tabLayout.setupWithViewPager(viewPager);
-
+    setupTab();
   }
 
   @Override
@@ -67,5 +68,33 @@ public class MainActivity extends BaseActivity {
             return true;
           }
         });
+  }
+
+  private void setupTab() {
+    Drawable homeIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
+        .setIcon(MaterialDrawableBuilder.IconValue.HOME)
+        .setColor(Color.BLACK)
+        .build();
+    Drawable faveIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
+        .setIcon(MaterialDrawableBuilder.IconValue.HEART)
+        .setColor(Color.BLACK)
+        .build();
+    Drawable eventIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
+        .setIcon(MaterialDrawableBuilder.IconValue.CALENDAR)
+        .setColor(Color.BLACK)
+        .build();
+    Drawable groupIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
+        .setIcon(MaterialDrawableBuilder.IconValue.ACCOUNT_MULTIPLE)
+        .setColor(Color.BLACK)
+        .build();
+
+    // Give the TabLayout the ViewPager
+    tabLayout.setupWithViewPager(viewPager);
+
+    // Set icons
+    tabLayout.getTabAt(0).setIcon(homeIcon);
+    tabLayout.getTabAt(1).setIcon(faveIcon);
+    tabLayout.getTabAt(2).setIcon(eventIcon);
+    tabLayout.getTabAt(3).setIcon(groupIcon);
   }
 }

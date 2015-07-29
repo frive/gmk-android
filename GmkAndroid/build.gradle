@@ -40,8 +40,8 @@ dependencies {
   // Image
   compile 'com.squareup.picasso:picasso:2.5.2'
 
- // Icons
-  compile 'com.github.theDazzler:droidicon:0.1.9@aar'
+  // Icons
+  compile 'net.steamcrafted:materialiconlib:1.0.3'
 
   // View Injection
   compile 'com.jakewharton:butterknife:7.0.1'
