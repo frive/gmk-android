@@ -15,4 +15,7 @@
   <string name="title_section3">Section 3</string>
 
   <string name="hello_world">Hello world!</string>
+
+  <!--Hints-->
+  <string name="main.search.hint">Search</string>
 </resources>

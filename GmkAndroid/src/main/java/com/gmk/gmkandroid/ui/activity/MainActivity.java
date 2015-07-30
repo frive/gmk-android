@@ -71,21 +71,23 @@ public class MainActivity extends BaseActivity {
   }
 
   private void setupTab() {
+    int iconColor = Color.BLACK;
+
     Drawable homeIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
         .setIcon(MaterialDrawableBuilder.IconValue.HOME)
-        .setColor(Color.BLACK)
+        .setColor(iconColor)
         .build();
     Drawable faveIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
         .setIcon(MaterialDrawableBuilder.IconValue.HEART)
-        .setColor(Color.BLACK)
+        .setColor(iconColor)
         .build();
     Drawable eventIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
         .setIcon(MaterialDrawableBuilder.IconValue.CALENDAR)
-        .setColor(Color.BLACK)
+        .setColor(iconColor)
         .build();
     Drawable groupIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
         .setIcon(MaterialDrawableBuilder.IconValue.ACCOUNT_MULTIPLE)
-        .setColor(Color.BLACK)
+        .setColor(iconColor)
         .build();
 
     // Give the TabLayout the ViewPager
