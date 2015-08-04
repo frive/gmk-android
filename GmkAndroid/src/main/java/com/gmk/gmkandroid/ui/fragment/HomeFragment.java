@@ -12,12 +12,14 @@ import android.widget.EditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.gmk.gmkandroid.R;
+import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 import com.gmk.gmkandroid.model.Cheeses;
 import java.util.ArrayList;
@@ -25,14 +27,19 @@ import java.util.List;
 import java.util.Random;
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
+import com.gmk.gmkandroid.R;
+import com.gmk.gmkandroid.ui.activity.SearchActivity;
+
 public class HomeFragment extends Fragment {
   @Bind(R.id.homeListView) RecyclerView homeListView;
+  @Bind(R.id.editText) EditText editText;
 
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_home, container, false);
+
     ButterKnife.bind(this, view);
 
     homeListView.setLayoutManager(new LinearLayoutManager(homeListView.getContext()));
@@ -83,8 +90,6 @@ public class HomeFragment extends Fragment {
     }
 
     public SimpleStringRecyclerViewAdapter(Context context, List<String> items) {
-      //context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
-      //mBackground = mTypedValue.resourceId;
       mValues = items;
     }
 
@@ -92,7 +97,7 @@ public class HomeFragment extends Fragment {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
       View view = LayoutInflater.from(parent.getContext())
           .inflate(R.layout.list_item, parent, false);
-      //view.setBackgroundResource(mBackground);
+
       return new ViewHolder(view);
     }
 
@@ -104,6 +109,7 @@ public class HomeFragment extends Fragment {
       holder.mView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+          Log.d("DEBUG", "clicked holder");
           //Context context = v.getContext();
           //Intent intent = new Intent(context, CheeseDetailActivity.class);
           //intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.mBoundString);
@@ -122,6 +128,11 @@ public class HomeFragment extends Fragment {
     public int getItemCount() {
       return mValues.size();
     }
+  }
+
+  @OnClick(R.id.editText) void goSearch() {
+    Intent intent = new Intent(getActivity(), SearchActivity.class);
+    startActivity(intent);
   }
 
 }

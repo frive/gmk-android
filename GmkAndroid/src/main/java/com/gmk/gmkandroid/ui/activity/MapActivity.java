@@ -3,7 +3,6 @@ package com.gmk.gmkandroid.ui.activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.cocoahero.android.geojson.FeatureCollection;
@@ -15,19 +14,18 @@ import com.mapbox.mapboxsdk.overlay.Icon;
 import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.UserLocationOverlay;
 import com.mapbox.mapboxsdk.views.MapView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 import com.gmk.gmkandroid.R;
-import com.gmk.gmkandroid.service.GmkService;
 
 public class MapActivity extends BaseActivity {
   @Bind(R.id.mapview) MapView mv;
@@ -48,18 +46,12 @@ public class MapActivity extends BaseActivity {
     // Retrieve UserLocation
     final LatLng userLocation = mv.getUserLocation();
 
-    RestAdapter restAdapter = new RestAdapter.Builder()
-        .setEndpoint(getString(R.string.gmk_endpoint))
-        .build();
-
-    GmkService api = restAdapter.create(GmkService.class);
-
     Map query  = new HashMap();
     query.put("lat", userLocation.getLatitude());
     query.put("lon", userLocation.getLongitude());
     query.put("distance", 3);
 
-    api.searchPlaces(query, new Callback<Response>() {
+    gmkAPI.searchPlacesGeoJson(query, new Callback<Response>() {
       @Override public void success(Response resp, Response response) {
         try {
           GeoJSONObject geoJSON = GeoJSON.parse(resp.getBody().in());
@@ -67,8 +59,8 @@ public class MapActivity extends BaseActivity {
 
           for (Feature f : featureCollection.getFeatures()) {
             JSONArray coordinates = (JSONArray) f.getGeometry().toJSON().get("coordinates");
-            JSONObject markerProps = f.getProperties().getJSONObject("mapbox")
-                .getJSONObject("marker");
+            JSONObject markerProps =
+                f.getProperties().getJSONObject("mapbox").getJSONObject("marker");
 
             double lat = (Double) coordinates.get(0);
             double lon = (Double) coordinates.get(1);

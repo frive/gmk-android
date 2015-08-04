@@ -8,6 +8,9 @@ import retrofit.Callback;
 import java.util.Map;
 
 public interface GmkService {
-  @GET("/search")
-  void searchPlaces(@QueryMap Map<String, String> query, Callback<Response> cb);
+  @GET("/search/places.json")
+  void searchPlacesJson(@QueryMap Map<String, String> query, Callback<Response> cb);
+
+  @GET("/search/places.geojson")
+  void searchPlacesGeoJson(@QueryMap Map<String, String> query, Callback<Response> cb);
 }
