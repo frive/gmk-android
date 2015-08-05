@@ -9,6 +9,7 @@
         android:id="@+id/tab_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/App.TabLayout"
         app:tabMode="scrollable" />
 
     <android.support.v4.view.ViewPager

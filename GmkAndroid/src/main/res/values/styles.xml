@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <style name="Theme.DesignDemo" parent="Base.Theme.DesignDemo">
+  <style name="Theme.App" parent="Base.Theme.App">
   </style>
 
-  <style name="Base.Theme.DesignDemo" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="colorPrimary">@color/md_orange_500</item>
-    <item name="colorPrimaryDark">@color/md_orange_700</item>
-    <item name="colorAccent">@color/md_blue_A400</item>
+  <style name="Theme.App.NoActionBar" parent="Base.Theme.App.NoActionBar">
+  </style>
+
+  <style name="Base.Theme.App" parent="Theme.AppCompat.Light">
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/primary_dark</item>
+    <item name="colorAccent">@color/primary_accent</item>
     <item name="android:windowBackground">@color/window_background</item>
   </style>
 
-  <style name="Widget.CardContent" parent="android:Widget">
-    <item name="android:paddingLeft">16dp</item>
-    <item name="android:paddingRight">16dp</item>
-    <item name="android:paddingTop">24dp</item>
-    <item name="android:paddingBottom">24dp</item>
-    <item name="android:orientation">vertical</item>
+  <style name="Base.Theme.App.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/primary_dark</item>
+    <item name="colorAccent">@color/primary_accent</item>
+    <item name="android:windowBackground">@color/window_background</item>
+  </style>
+
+  <style name="App.TabLayout" parent="Widget.Design.TabLayout">
+    <item name="tabMaxWidth">@dimen/tab_max_width</item>
+    <item name="tabIndicatorColor">@color/primary_accent</item>
+    <item name="tabIndicatorHeight">2dp</item>
+    <item name="tabPaddingStart">12dp</item>
+    <item name="tabPaddingEnd">12dp</item>
   </style>
 
 </resources>

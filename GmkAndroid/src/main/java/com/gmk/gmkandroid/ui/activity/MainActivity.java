@@ -71,14 +71,14 @@ public class MainActivity extends BaseActivity {
   }
 
   private void setupTab() {
-    int iconColor = Color.BLACK;
+    int iconColor = Color.WHITE;
 
     Drawable homeIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
         .setIcon(MaterialDrawableBuilder.IconValue.HOME)
         .setColor(iconColor)
         .build();
     Drawable faveIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
-        .setIcon(MaterialDrawableBuilder.IconValue.HEART)
+        .setIcon(MaterialDrawableBuilder.IconValue.HEART_OUTLINE)
         .setColor(iconColor)
         .build();
     Drawable eventIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity {
         .setColor(iconColor)
         .build();
     Drawable groupIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
-        .setIcon(MaterialDrawableBuilder.IconValue.ACCOUNT_MULTIPLE)
+        .setIcon(MaterialDrawableBuilder.IconValue.ACCOUNT_MULTIPLE_OUTLINE)
         .setColor(iconColor)
         .build();
 
@@ -98,5 +98,7 @@ public class MainActivity extends BaseActivity {
     tabLayout.getTabAt(1).setIcon(faveIcon);
     tabLayout.getTabAt(2).setIcon(eventIcon);
     tabLayout.getTabAt(3).setIcon(groupIcon);
+
+    tabLayout.setBackgroundColor(getResources().getColor(R.color.primary));
   }
 }

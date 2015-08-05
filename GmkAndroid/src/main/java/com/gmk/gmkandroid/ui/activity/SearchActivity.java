@@ -5,16 +5,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.util.JsonReader;
 import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import retrofit.Callback;
@@ -22,12 +15,16 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import com.cocoahero.android.geojson.util.StreamUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.adapter.PlaceRecyclerViewAdapter;
 import com.gmk.gmkandroid.model.Place;
 
 public class SearchActivity extends BaseActivity {
-  @Bind(R.id.search_toolbar) Toolbar mToolbar;
   @Bind(R.id.search_result) RecyclerView mRecyclerView;
   @Bind(R.id.search_progress) ProgressBar mProgress;
   @Bind(R.id.search_view) SearchView mSearchView;
@@ -39,8 +36,6 @@ public class SearchActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_search);
     ButterKnife.bind(this);
-
-    setSupportActionBar(mToolbar);
 
     final ActionBar ab = getSupportActionBar();
     ab.setTitle("Search");
@@ -84,6 +79,10 @@ public class SearchActivity extends BaseActivity {
     qs.put("lat", 14.42);
     qs.put("lon", 121);
     qs.put("distance", 3);
+
+    if (!query.isEmpty()) {
+      qs.put("q", query);
+    }
 
     gmkAPI.searchPlacesJson(qs, new Callback<Response>() {
       @Override public void success(Response resp, Response response) {
