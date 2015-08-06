@@ -10,7 +10,7 @@
       android:singleLine="true"
       android:lines="1"
       android:maxLength="50"
-      android:hint="@string/main.search.hint"
+      android:hint="@string/main_search_hint"
       />
   <android.support.v7.widget.RecyclerView
       android:id="@+id/homeListView"

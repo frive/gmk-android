@@ -1,10 +1,13 @@
 package com.gmk.gmkandroid.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,13 +24,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.gmk.gmkandroid.R;
-import com.gmk.gmkandroid.adapter.PlaceRecyclerViewAdapter;
 import com.gmk.gmkandroid.model.Place;
+import com.gmk.gmkandroid.adapter.PlaceRecyclerViewAdapter;
 
 public class SearchActivity extends BaseActivity {
-  @Bind(R.id.search_result) RecyclerView mRecyclerView;
-  @Bind(R.id.search_progress) ProgressBar mProgress;
-  @Bind(R.id.search_view) SearchView mSearchView;
+  @Bind(R.id.rvSearchResult) RecyclerView mRecyclerView;
+  @Bind(R.id.pbSearch) ProgressBar mProgress;
 
   private PlaceRecyclerViewAdapter mAdapter;
   private ArrayList<Place> mPlaces;
@@ -51,24 +53,6 @@ public class SearchActivity extends BaseActivity {
     // Set layout manager to position the items
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     // That's all!
-
-    mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-      @Override
-      public boolean onQueryTextSubmit(String query) {
-        // Fetch the data remotely
-        fetchPlaces(query);
-        // Reset SearchView
-        mSearchView.clearFocus();
-        mSearchView.setQuery("", false);
-
-        return true;
-      }
-
-      @Override
-      public boolean onQueryTextChange(String s) {
-        return false;
-      }
-    });
   }
 
   private void fetchPlaces(String query) {
@@ -116,5 +100,50 @@ public class SearchActivity extends BaseActivity {
         throw retrofitError;
       }
     });
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.menu_search, menu);
+    final MenuItem searchItem = menu.findItem(R.id.svPlaces);
+    final SearchView svPlaces = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+    svPlaces.setIconifiedByDefault(false);
+    svPlaces.setQueryHint(getResources().getString(R.string.main_search_hint));
+
+    svPlaces.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+      @Override
+      public boolean onQueryTextSubmit(String query) {
+        // Fetch the data remotely
+        fetchPlaces(query);
+        // Reset SearchView
+        svPlaces.clearFocus();
+        svPlaces.setQuery("", false);
+
+        return true;
+      }
+
+      @Override
+      public boolean onQueryTextChange(String s) {
+        return false;
+      }
+    });
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+
+    //noinspection SimplifiableIfStatement
+    if (id == R.id.svPlaces) {
+      return true;
+    }
+
+    return super.onOptionsItemSelected(item);
   }
 }
