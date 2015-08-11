@@ -8,20 +8,37 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:clickable="true"
-  card_view:cardCornerRadius="8dp"
-  card_view:cardElevation="8dp">
+  android:foreground="?attr/selectableItemBackground">
 
-  <LinearLayout
+  <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="150dp"
+      android:id="@+id/ivPhoto"
+      android:layout_alignParentTop="true"
+      />
 
     <TextView
-      android:id="@+id/tv_info"
+      android:id="@+id/tvName"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:height="160dp"
-      android:gravity="center_vertical"/>
+      android:layout_below="@id/ivPhoto"
+      android:textAppearance="?attr/textAppearanceSearchResultTitle"
+    />
 
-  </LinearLayout>
+    <TextView
+      android:id="@+id/tvFaves"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/ivPhoto"
+      android:layout_alignParentRight="true"
+      android:drawablePadding="8dp"
+      />
+
+  </RelativeLayout>
 
 </android.support.v7.widget.CardView>

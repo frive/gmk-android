@@ -28,8 +28,8 @@ import com.gmk.gmkandroid.model.Place;
 import com.gmk.gmkandroid.adapter.PlaceRecyclerViewAdapter;
 
 public class SearchActivity extends BaseActivity {
-  @Bind(R.id.rvSearchResult) RecyclerView mRecyclerView;
-  @Bind(R.id.pbSearch) ProgressBar mProgress;
+  @Bind(R.id.rvSearchResult) RecyclerView rvSearchResult;
+  @Bind(R.id.pbSearch) ProgressBar pbSearch;
 
   private PlaceRecyclerViewAdapter mAdapter;
   private ArrayList<Place> mPlaces;
@@ -40,7 +40,6 @@ public class SearchActivity extends BaseActivity {
     ButterKnife.bind(this);
 
     final ActionBar ab = getSupportActionBar();
-    ab.setTitle("Search");
     ab.setDisplayHomeAsUpEnabled(true);
 
     mPlaces = new ArrayList<Place>();
@@ -49,15 +48,15 @@ public class SearchActivity extends BaseActivity {
     // Create adapter passing in the sample user data
     mAdapter = new PlaceRecyclerViewAdapter(this, mPlaces);
     // Attach the adapter to the recyclerview to populate items
-    mRecyclerView.setAdapter(mAdapter);
+    rvSearchResult.setAdapter(mAdapter);
     // Set layout manager to position the items
-    mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    rvSearchResult.setLayoutManager(new LinearLayoutManager(this));
     // That's all!
   }
 
   private void fetchPlaces(String query) {
     // Show progress bar before making network request
-    mProgress.setVisibility(ProgressBar.VISIBLE);
+    pbSearch.setVisibility(ProgressBar.VISIBLE);
 
     Map qs  = new HashMap();
     qs.put("lat", 14.42);
@@ -72,7 +71,7 @@ public class SearchActivity extends BaseActivity {
       @Override public void success(Response resp, Response response) {
         try {
           // hide progress bar
-          mProgress.setVisibility(ProgressBar.GONE);
+          pbSearch.setVisibility(ProgressBar.GONE);
           JSONObject docs;
 
           if (response != null) {
@@ -110,7 +109,7 @@ public class SearchActivity extends BaseActivity {
     final SearchView svPlaces = (SearchView) MenuItemCompat.getActionView(searchItem);
 
     svPlaces.setIconifiedByDefault(false);
-    svPlaces.setQueryHint(getResources().getString(R.string.main_search_hint));
+    svPlaces.setQueryHint(getString(R.string.main_search_hint));
 
     svPlaces.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override

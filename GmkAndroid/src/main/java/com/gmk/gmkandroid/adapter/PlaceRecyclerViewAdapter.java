@@ -1,11 +1,16 @@
 package com.gmk.gmkandroid.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 import java.util.ArrayList;
 
@@ -33,13 +38,15 @@ public class PlaceRecyclerViewAdapter extends
   public static class ViewHolder extends RecyclerView.ViewHolder {
     // Your holder should contain a member variable
     // for any view that will be set as you render a row
-    public TextView tvInfo;
+    @Bind(R.id.tvName) TextView tvName;
+    @Bind(R.id.tvFaves) TextView tvFaves;
+    @Bind(R.id.ivPhoto) ImageView ivPhoto;
 
     // We also create a constructor that accepts the entire item row
     // and does the view lookups to find each subview
     public ViewHolder(View itemView) {
       super(itemView);
-      this.tvInfo = (TextView) itemView.findViewById(R.id.tv_info);
+      ButterKnife.bind(this, itemView);
     }
   }
 
@@ -59,8 +66,21 @@ public class PlaceRecyclerViewAdapter extends
     // Get the data model based on position
     Place place = places.get(position);
 
+    Drawable imgPhoto = MaterialDrawableBuilder.with(context)
+        .setIcon(MaterialDrawableBuilder.IconValue.CAMERA)
+        .setColor(context.getResources().getColor(R.color.dim_foreground_disabled_material_light))
+        .build();
+
+    Drawable imgFave = MaterialDrawableBuilder.with(context)
+        .setIcon(MaterialDrawableBuilder.IconValue.HEART)
+        .setColor(context.getResources().getColor(R.color.primary_accent))
+        .build();
+
     // Set item views based on the data model
-    holder.tvInfo.setText(place.getName());
+    holder.tvName.setText(place.getName());
+    holder.tvFaves.setText("100");
+    holder.tvFaves.setCompoundDrawables(imgFave, null, null, null);
+    holder.ivPhoto.setImageDrawable(imgPhoto);
   }
 
   // Return the total count of items
