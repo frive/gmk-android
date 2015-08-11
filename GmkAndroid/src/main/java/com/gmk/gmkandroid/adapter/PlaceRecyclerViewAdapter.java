@@ -1,6 +1,7 @@
 package com.gmk.gmkandroid.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.model.Place;
+import com.gmk.gmkandroid.ui.activity.PlaceActivity;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
@@ -25,12 +27,12 @@ public class PlaceRecyclerViewAdapter extends
   // Store a member variable for the users
   private ArrayList<Place> places;
   // Store the context for later use
-  private Context context;
+  private Context mContext;
 
   // Pass in the context and users array into the constructor
   public PlaceRecyclerViewAdapter(Context context, ArrayList<Place> places) {
     this.places = places;
-    this.context = context;
+    this.mContext = context;
   }
 
   // Provide a direct reference to each of the views within a data item
@@ -54,7 +56,7 @@ public class PlaceRecyclerViewAdapter extends
   @Override
   public PlaceRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     // Inflate the custom layout
-    View itemView = LayoutInflater.from(context).
+    View itemView = LayoutInflater.from(parent.getContext()).
         inflate(R.layout.item_search_result, parent, false);
     // Return a new holder instance
     return new PlaceRecyclerViewAdapter.ViewHolder(itemView);
@@ -64,16 +66,16 @@ public class PlaceRecyclerViewAdapter extends
   @Override
   public void onBindViewHolder(PlaceRecyclerViewAdapter.ViewHolder holder, int position) {
     // Get the data model based on position
-    Place place = places.get(position);
+    final Place place = places.get(position);
 
-    Drawable imgPhoto = MaterialDrawableBuilder.with(context)
-        .setIcon(MaterialDrawableBuilder.IconValue.CAMERA)
-        .setColor(context.getResources().getColor(R.color.dim_foreground_disabled_material_light))
+    Drawable imgPhoto = MaterialDrawableBuilder.with(mContext)
+        .setIcon(MaterialDrawableBuilder.IconValue.IMAGE_AREA)
+        .setColor(mContext.getResources().getColor(R.color.dim_foreground_disabled_material_light))
         .build();
 
-    Drawable imgFave = MaterialDrawableBuilder.with(context)
+    Drawable imgFave = MaterialDrawableBuilder.with(mContext)
         .setIcon(MaterialDrawableBuilder.IconValue.HEART)
-        .setColor(context.getResources().getColor(R.color.primary_accent))
+        .setColor(mContext.getResources().getColor(R.color.primary_accent))
         .build();
 
     // Set item views based on the data model
@@ -81,6 +83,15 @@ public class PlaceRecyclerViewAdapter extends
     holder.tvFaves.setText("100");
     holder.tvFaves.setCompoundDrawables(imgFave, null, null, null);
     holder.ivPhoto.setImageDrawable(imgPhoto);
+
+    holder.itemView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        Intent intent = new Intent(mContext, PlaceActivity.class);
+        intent.putExtra("place", place);
+
+        mContext.startActivity(intent);
+      }
+    });
   }
 
   // Return the total count of items

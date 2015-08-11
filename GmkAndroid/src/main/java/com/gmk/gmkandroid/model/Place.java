@@ -1,5 +1,6 @@
 package com.gmk.gmkandroid.model;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Place {
+public class Place implements Serializable {
 
   private String Id;
   private String Rev;

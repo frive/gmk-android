@@ -31,6 +31,13 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
+
+        <activity android:name=".ui.activity.PlaceActivity"
+            android:theme="@style/Theme.App.NoActionBar"
+            android:parentActivityName=".ui.activity.SearchActivity">
+          <meta-data android:name="android.support.PARENT_ACTIVITY"
+              android:value=".ui.activity.SearchActivity" />
+        </activity>
     </application>
 
 </manifest>
