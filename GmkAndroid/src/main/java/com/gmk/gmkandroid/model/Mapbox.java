@@ -1,10 +1,11 @@
 
 package com.gmk.gmkandroid.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Mapbox {
+public class Mapbox implements Serializable {
 
     private Marker marker;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();

@@ -1,10 +1,11 @@
 
 package com.gmk.gmkandroid.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Marker {
+public class Marker implements Serializable {
 
     private String color;
     private String symbol;

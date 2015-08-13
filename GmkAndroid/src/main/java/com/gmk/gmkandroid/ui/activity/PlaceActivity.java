@@ -1,24 +1,26 @@
 package com.gmk.gmkandroid.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.overlay.Icon;
+import com.mapbox.mapboxsdk.overlay.Marker;
+import com.mapbox.mapboxsdk.views.MapView;
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.model.Place;
+import com.gmk.gmkandroid.model.Mapbox;
 
 public class PlaceActivity extends BaseActivity {
   private Place place;
@@ -31,6 +33,7 @@ public class PlaceActivity extends BaseActivity {
   @Bind(R.id.tvPhone) TextView tvPhone;
   @Bind(R.id.tvWeb) TextView tvWeb;
   @Bind(R.id.tvEmail) TextView tvEmail;
+  @Bind(R.id.mbxvLocation) MapView mbxvLocation;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,24 @@ public class PlaceActivity extends BaseActivity {
     collapsingToolbar.setExpandedTitleColor(colorTitle);
 
     loadBackdrop();
+    loadMap();
+  }
+
+  private void loadMap() {
+    double lat = place.getCoordinates().get(0);
+    double lon = place.getCoordinates().get(1);
+    LatLng loc = new LatLng(lat, lon);
+
+    Mapbox mbxModel = place.getMapbox();
+
+    mbxvLocation.setMinZoomLevel(mbxvLocation.getTileProvider().getMinimumZoomLevel());
+    mbxvLocation.setMaxZoomLevel(mbxvLocation.getTileProvider().getMaximumZoomLevel());
+    mbxvLocation.setCenter(loc);
+
+    Marker marker = new Marker(mbxvLocation, "", "", loc);
+    marker.setIcon(new Icon(this, Icon.Size.LARGE, mbxModel.getMarker().getSymbol(),
+            mbxModel.getMarker().getColor()));
+    mbxvLocation.addMarker(marker);
   }
 
   private void loadBackdrop() {

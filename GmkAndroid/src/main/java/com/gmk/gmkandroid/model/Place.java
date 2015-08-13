@@ -1,7 +1,6 @@
 package com.gmk.gmkandroid.model;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +74,18 @@ public class Place implements Serializable {
       JSONArray array = jsonObject.getJSONArray("coordinates");
       p.coordinates.add((Double) array.get(0));
       p.coordinates.add((Double) array.get(1));
+
+      JSONObject mbxJSON = jsonObject.getJSONObject("mapbox");
+      JSONObject markerJSON = mbxJSON.getJSONObject("marker");
+
+      Mapbox mbx = new Mapbox();
+      Marker marker = new Marker();
+
+      marker.setColor(markerJSON.getString("color"));
+      marker.setSymbol(markerJSON.getString("symbol"));
+      mbx.setMarker(marker);
+
+      p.mapbox = mbx;
     } catch (JSONException e) {
       e.printStackTrace();
       return null;
