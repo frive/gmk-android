@@ -3,41 +3,51 @@
     package="com.gmk.gmkandroid"
     >
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/Theme.App" >
+  <application
+      android:allowBackup="true"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:theme="@style/Theme.App"
+      >
 
-        <activity
-            android:name=".ui.activity.MainActivity"
-            android:theme="@style/Theme.App.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+    <activity
+        android:name=".ui.activity.MainActivity"
+        android:theme="@style/Theme.App.NoActionBar"
+        >
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
 
-        <activity
-            android:name=".ui.activity.SearchActivity"
-            android:parentActivityName=".ui.activity.MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
-        </activity>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
 
-        <activity android:name=".ui.activity.PlaceActivity"
-            android:theme="@style/Theme.App.NoActionBar"
-            android:parentActivityName=".ui.activity.SearchActivity">
-          <meta-data android:name="android.support.PARENT_ACTIVITY"
-              android:value=".ui.activity.SearchActivity" />
-        </activity>
-    </application>
+    <activity
+        android:name=".ui.activity.SearchActivity"
+        android:parentActivityName=".ui.activity.MainActivity"
+        >
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value=".ui.activity.MainActivity"
+          />
+    </activity>
+
+    <activity
+        android:name=".ui.activity.PlaceActivity"
+        android:theme="@style/Theme.App.NoActionBar"
+        android:parentActivityName=".ui.activity.SearchActivity"
+        >
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value=".ui.activity.SearchActivity"
+          />
+    </activity>
+  </application>
 
 </manifest>
