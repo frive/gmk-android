@@ -8,7 +8,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.json.JSONException;
@@ -30,6 +32,7 @@ import com.gmk.gmkandroid.adapter.PlaceRecyclerViewAdapter;
 public class SearchActivity extends BaseActivity {
   @Bind(R.id.rvSearchResult) RecyclerView rvSearchResult;
   @Bind(R.id.pbSearch) ProgressBar pbSearch;
+  @Bind(R.id.tvNoResult) TextView tvNoResult;
 
   private PlaceRecyclerViewAdapter mAdapter;
   private ArrayList<Place> mPlaces;
@@ -69,22 +72,31 @@ public class SearchActivity extends BaseActivity {
 
     gmkAPI.searchPlacesJson(qs, new Callback<Response>() {
       @Override public void success(Response resp, Response response) {
+        JSONObject docs;
+        ArrayList<Place> places;
+
         try {
           // hide progress bar
           pbSearch.setVisibility(ProgressBar.GONE);
-          JSONObject docs;
 
           if (response != null) {
             // Get the docs json array
             docs = new JSONObject(StreamUtils.toString(resp.getBody().in()));
+            places = Place.fromJson(docs.getJSONArray("places"));
 
-            // Remove all books from the adapter
-            mPlaces.clear();
+            if (places.size() == 0) {
+              tvNoResult.setVisibility(TextView.VISIBLE);
+            } else {
+              tvNoResult.setVisibility(TextView.GONE);
 
-            // Load model objects into the adapter
-            mPlaces.addAll(Place.fromJson(docs.getJSONArray("places")));
+              // Remove all books from the adapter
+              mPlaces.clear();
 
-            mAdapter.notifyDataSetChanged();
+              // Load model objects into the adapter
+              mPlaces.addAll(places);
+
+              mAdapter.notifyDataSetChanged();
+            }
           }
         } catch (IOException e) {
             e.printStackTrace();
