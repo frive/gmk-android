@@ -126,7 +126,83 @@
               android:paddingBottom="20dp"
               />
 
+          <TextView
+              android:id="@+id/tvOpHrs"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/tvWeb"
+              android:drawablePadding="8dp"
+              android:paddingBottom="20dp"
+              />
+
         </RelativeLayout>
+
+      </android.support.v7.widget.CardView>
+
+      <android.support.v7.widget.CardView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="4dp"
+          >
+
+        <android.support.v7.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:columnCount="3"
+            app:rowCount="4"
+            >
+
+          <TextView
+              android:id="@+id/tvParking"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:drawablePadding="8dp"
+              android:padding="20dp"
+              android:text="Parking"
+              android:visibility="gone"
+              />
+
+          <TextView
+              android:id="@+id/tvWifi"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:drawablePadding="8dp"
+              android:padding="20dp"
+              android:text="Wifi"
+              android:visibility="gone"
+              />
+
+          <TextView
+              android:id="@+id/tvCreditCard"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:drawablePadding="8dp"
+              android:padding="20dp"
+              android:text="Credit Card"
+              android:visibility="gone"
+              />
+
+          <TextView
+              android:id="@+id/tvDelivery"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:drawablePadding="8dp"
+              android:padding="20dp"
+              android:text="Delivery"
+              android:visibility="gone"
+              />
+
+          <TextView
+              android:id="@+id/tvCatering"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:drawablePadding="8dp"
+              android:padding="20dp"
+              android:text="Catering"
+              android:visibility="gone"
+              />
+
+        </android.support.v7.widget.GridLayout>
 
       </android.support.v7.widget.CardView>
 

@@ -10,10 +10,6 @@
   <string name="mbx_map_id">frive.d226853e</string>
   <string name="mbx_access_token">pk.eyJ1IjoiZnJpdmUiLCJhIjoiOGU1MDg0YzczMTRlOTJlYjc3MjAwZTk4OWUzZDExMTcifQ.FAgkhSGfjgg1LpEIlTlX9w</string>
 
-  <string name="title_section1">Section 1</string>
-  <string name="title_section2">Section 2</string>
-  <string name="title_section3">Section 3</string>
-
   <!--Hints-->
   <string name="main_search_hint">Search</string>
 

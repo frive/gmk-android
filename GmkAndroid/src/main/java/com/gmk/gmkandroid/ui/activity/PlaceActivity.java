@@ -34,6 +34,12 @@ public class PlaceActivity extends BaseActivity {
   @Bind(R.id.tvWeb) TextView tvWeb;
   @Bind(R.id.tvEmail) TextView tvEmail;
   @Bind(R.id.mbxvLocation) MapView mbxvLocation;
+  @Bind(R.id.tvOpHrs) TextView tvOpHrs;
+  @Bind(R.id.tvParking) TextView tvParking;
+  @Bind(R.id.tvWifi) TextView tvWifi;
+  @Bind(R.id.tvCreditCard) TextView tvCreditCard;
+  @Bind(R.id.tvDelivery) TextView tvDelivery;
+  @Bind(R.id.tvCatering) TextView tvCatering;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -79,6 +85,7 @@ public class PlaceActivity extends BaseActivity {
 
   private void loadBackdrop() {
     int colorPrimary = getResources().getColor(R.color.primary);
+    int colorWhite = getResources().getColor(R.color.white);
 
     Drawable imgMapMarker = MaterialDrawableBuilder.with(this)
         .setIcon(MaterialDrawableBuilder.IconValue.MAP_MARKER)
@@ -115,6 +122,16 @@ public class PlaceActivity extends BaseActivity {
         .setColor(colorPrimary)
         .build();
 
+    Drawable imgOpHrs = MaterialDrawableBuilder.with(this)
+        .setIcon(MaterialDrawableBuilder.IconValue.CALENDAR_CLOCK)
+        .setColor(colorPrimary)
+        .build();
+
+    Drawable imgCheck = MaterialDrawableBuilder.with(this)
+        .setIcon(MaterialDrawableBuilder.IconValue.CHECKBOX_MARKED_CIRCLE_OUTLINE)
+        .setColor(colorPrimary)
+        .build();
+
     //Glide.with(this).load(Cheeses.getRandomCheeseDrawable()).centerCrop().into(imageView);
     fabMapMarker.setImageDrawable(imgMapMarker);
 
@@ -135,6 +152,35 @@ public class PlaceActivity extends BaseActivity {
 
     tvWeb.setText(place.getWebsite());
     tvWeb.setCompoundDrawables(imgWeb, null, null, null);
+
+    tvOpHrs.setText(place.getOperatingHrs());
+    tvOpHrs.setCompoundDrawables(imgOpHrs, null, null, null);
+
+    if (place.getParking().length() > 0) {
+      tvParking.setVisibility(TextView.VISIBLE);
+    }
+
+    if (place.getWifi()) {
+      tvWifi.setVisibility(TextView.VISIBLE);
+    }
+
+    if (place.getCreditCard()) {
+      tvCreditCard.setVisibility(TextView.VISIBLE);
+    }
+
+    if (place.getDelivery()) {
+      tvDelivery.setVisibility(TextView.VISIBLE);
+    }
+
+    if (place.getCatering()) {
+      tvCatering.setVisibility(TextView.VISIBLE);
+    }
+
+    tvParking.setCompoundDrawables(imgCheck, null, null, null);
+    tvWifi.setCompoundDrawables(imgCheck, null, null, null);
+    tvCreditCard.setCompoundDrawables(imgCheck, null, null, null);
+    tvDelivery.setCompoundDrawables(imgCheck, null, null, null);
+    tvCatering.setCompoundDrawables(imgCheck, null, null, null);
   }
 
   @Override
