@@ -12,11 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.overlay.Icon;
 import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.views.MapView;
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.model.Place;
@@ -87,50 +88,33 @@ public class PlaceActivity extends BaseActivity {
     int colorPrimary = getResources().getColor(R.color.primary);
     int colorWhite = getResources().getColor(R.color.white);
 
-    Drawable imgMapMarker = MaterialDrawableBuilder.with(this)
-        .setIcon(MaterialDrawableBuilder.IconValue.MAP_MARKER)
-        .setColor(getResources().getColor(R.color.white))
-        .build();
+    Drawable imgMapMarker = new IconDrawable(this, MaterialIcons.md_place)
+        .color(colorWhite);
 
-    Drawable imgFave = MaterialDrawableBuilder.with(this)
-        .setIcon(MaterialDrawableBuilder.IconValue.HEART)
-        .setColor(colorPrimary)
-        .build();
-
-    Drawable imgCuisine = MaterialDrawableBuilder.with(this)
-        .setIcon(MaterialDrawableBuilder.IconValue.SILVERWARE_VARIANT)
-        .setColor(colorPrimary)
-        .build();
-
-    Drawable imgAddress = MaterialDrawableBuilder.with(this)
-        .setIcon(MaterialDrawableBuilder.IconValue.HOME)
-        .setColor(colorPrimary)
-        .build();
-
-    Drawable imgPhone = MaterialDrawableBuilder.with(this)
-        .setIcon(MaterialDrawableBuilder.IconValue.PHONE)
-        .setColor(colorPrimary)
-        .build();
-
-    Drawable imgEmail = MaterialDrawableBuilder.with(this)
-        .setIcon(MaterialDrawableBuilder.IconValue.EMAIL)
-        .setColor(colorPrimary)
-        .build();
-
-    Drawable imgWeb = MaterialDrawableBuilder.with(this)
-        .setIcon(MaterialDrawableBuilder.IconValue.WEB)
-        .setColor(colorPrimary)
-        .build();
-
-    Drawable imgOpHrs = MaterialDrawableBuilder.with(this)
-        .setIcon(MaterialDrawableBuilder.IconValue.CALENDAR_CLOCK)
-        .setColor(colorPrimary)
-        .build();
-
-    Drawable imgCheck = MaterialDrawableBuilder.with(this)
-        .setIcon(MaterialDrawableBuilder.IconValue.CHECKBOX_MARKED_CIRCLE_OUTLINE)
-        .setColor(colorPrimary)
-        .build();
+    IconDrawable imgFave = new IconDrawable(this, MaterialIcons.md_favorite)
+        .color(colorPrimary)
+        .actionBarSize();
+    IconDrawable imgCuisine = new IconDrawable(this, MaterialIcons.md_local_dining)
+        .color(colorPrimary)
+        .actionBarSize();
+    IconDrawable imgAddress = new IconDrawable(this, MaterialIcons.md_place)
+        .color(colorPrimary)
+        .actionBarSize();
+    IconDrawable imgPhone = new IconDrawable(this, MaterialIcons.md_phone)
+        .color(colorPrimary)
+        .actionBarSize();
+    IconDrawable imgEmail = new IconDrawable(this, MaterialIcons.md_email)
+        .color(colorPrimary)
+        .actionBarSize();
+    IconDrawable imgWeb = new IconDrawable(this, MaterialIcons.md_public)
+        .color(colorPrimary)
+        .actionBarSize();
+    IconDrawable imgOpHrs = new IconDrawable(this, MaterialIcons.md_schedule)
+        .color(colorPrimary)
+        .actionBarSize();
+    IconDrawable imgCheck = new IconDrawable(this, MaterialIcons.md_check_circle)
+        .color(colorPrimary)
+        .actionBarSize();
 
     //Glide.with(this).load(Cheeses.getRandomCheeseDrawable()).centerCrop().into(imageView);
     fabMapMarker.setImageDrawable(imgMapMarker);

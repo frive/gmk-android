@@ -2,7 +2,6 @@ package com.gmk.gmkandroid.ui.activity;
 
 import android.os.Bundle;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -11,7 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 
 import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.adapter.TabPagerAdapter;
@@ -73,22 +73,18 @@ public class MainActivity extends BaseActivity {
   private void setupTab() {
     int iconColor = Color.WHITE;
 
-    Drawable homeIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
-        .setIcon(MaterialDrawableBuilder.IconValue.HOME)
-        .setColor(iconColor)
-        .build();
-    Drawable faveIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
-        .setIcon(MaterialDrawableBuilder.IconValue.HEART_OUTLINE)
-        .setColor(iconColor)
-        .build();
-    Drawable eventIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
-        .setIcon(MaterialDrawableBuilder.IconValue.CALENDAR)
-        .setColor(iconColor)
-        .build();
-    Drawable groupIcon = MaterialDrawableBuilder.with(this.getApplicationContext())
-        .setIcon(MaterialDrawableBuilder.IconValue.ACCOUNT_MULTIPLE_OUTLINE)
-        .setColor(iconColor)
-        .build();
+    IconDrawable homeIcon = new IconDrawable(this, MaterialIcons.md_home)
+        .color(iconColor)
+        .actionBarSize();
+    IconDrawable faveIcon = new IconDrawable(this, MaterialIcons.md_favorite)
+        .color(iconColor)
+        .actionBarSize();
+    IconDrawable eventIcon = new IconDrawable(this, MaterialIcons.md_event)
+        .color(iconColor)
+        .actionBarSize();
+    IconDrawable groupIcon = new IconDrawable(this, MaterialIcons.md_group)
+        .color(iconColor)
+        .actionBarSize();
 
     // Give the TabLayout the ViewPager
     tabLayout.setupWithViewPager(viewPager);

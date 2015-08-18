@@ -17,23 +17,28 @@ import com.mapbox.mapboxsdk.views.MapView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.gmk.gmkandroid.R;
+import com.gmk.gmkandroid.GmkApplication;
 
 public class MapActivity extends BaseActivity {
+  private GmkApplication app;
+
   @Bind(R.id.mapview) MapView mv;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_map);
     ButterKnife.bind(this);
+
+    app = (GmkApplication) getApplication();
 
     mv.setMinZoomLevel(mv.getTileProvider().getMinimumZoomLevel());
     mv.setMaxZoomLevel(mv.getTileProvider().getMaximumZoomLevel());
@@ -51,7 +56,7 @@ public class MapActivity extends BaseActivity {
     query.put("lon", userLocation.getLongitude());
     query.put("distance", 3);
 
-    gmkAPI.searchPlacesGeoJson(query, new Callback<Response>() {
+    app.gmkAPI.searchPlacesGeoJson(query, new Callback<Response>() {
       @Override public void success(Response resp, Response response) {
         try {
           GeoJSONObject geoJSON = GeoJSON.parse(resp.getBody().in());

@@ -26,21 +26,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.gmk.gmkandroid.R;
+import com.gmk.gmkandroid.GmkApplication;
 import com.gmk.gmkandroid.model.Place;
 import com.gmk.gmkandroid.adapter.PlaceRecyclerViewAdapter;
 
 public class SearchActivity extends BaseActivity {
-  @Bind(R.id.rvSearchResult) RecyclerView rvSearchResult;
-  @Bind(R.id.pbSearch) ProgressBar pbSearch;
-  @Bind(R.id.tvNoResult) TextView tvNoResult;
+  private GmkApplication app;
 
   private PlaceRecyclerViewAdapter mAdapter;
   private ArrayList<Place> mPlaces;
+
+  @Bind(R.id.rvSearchResult) RecyclerView rvSearchResult;
+  @Bind(R.id.pbSearch) ProgressBar pbSearch;
+  @Bind(R.id.tvNoResult) TextView tvNoResult;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_search);
     ButterKnife.bind(this);
+
+    app = (GmkApplication) getApplication();
 
     final ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
@@ -70,7 +75,7 @@ public class SearchActivity extends BaseActivity {
       qs.put("q", query);
     }
 
-    gmkAPI.searchPlacesJson(qs, new Callback<Response>() {
+    app.gmkAPI.searchPlacesJson(qs, new Callback<Response>() {
       @Override public void success(Response resp, Response response) {
         JSONObject docs;
         ArrayList<Place> places;
@@ -99,7 +104,7 @@ public class SearchActivity extends BaseActivity {
             }
           }
         } catch (IOException e) {
-            e.printStackTrace();
+          e.printStackTrace();
         } catch (JSONException e) {
           // Invalid JSON format, show appropriate error.
           e.printStackTrace();

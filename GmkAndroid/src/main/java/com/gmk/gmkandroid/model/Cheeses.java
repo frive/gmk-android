@@ -1,27 +1,27 @@
 package com.gmk.gmkandroid.model;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import net.steamcrafted.materialiconlib.R;
+import android.content.Context;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import java.util.Random;
 
 public class Cheeses {
 
   private static final Random RANDOM = new Random();
 
-  public static int getRandomCheeseDrawable() {
+  public static IconDrawable getRandomCheeseDrawable(Context context) {
     switch (RANDOM.nextInt(5)) {
       default:
       case 0:
-        return R.id.google;
+        return new IconDrawable(context, FontAwesomeIcons.fa_google);
       case 1:
-        return R.id.facebook;
+        return new IconDrawable(context, FontAwesomeIcons.fa_facebook);
       case 2:
-        return R.id.android;
+        return new IconDrawable(context, FontAwesomeIcons.fa_android);
       case 3:
-        return R.id.twitter;
+        return new IconDrawable(context, FontAwesomeIcons.fa_twitter);
       case 4:
-        return R.id.instagram;
+        return new IconDrawable(context, FontAwesomeIcons.fa_instagram);
     }
   }
 

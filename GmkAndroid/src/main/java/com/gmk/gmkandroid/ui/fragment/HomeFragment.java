@@ -22,10 +22,10 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 import com.gmk.gmkandroid.model.Cheeses;
+import com.joanzapata.iconify.widget.IconTextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.ui.activity.SearchActivity;
@@ -69,13 +69,13 @@ public class HomeFragment extends Fragment {
       public String mBoundString;
 
       public final View mView;
-      public final MaterialIconView mImageView;
+      public final IconTextView mImageView;
       public final TextView mTextView;
 
       public ViewHolder(View view) {
         super(view);
         mView = view;
-        mImageView = (MaterialIconView) view.findViewById(R.id.avatar);
+        mImageView = (IconTextView) view.findViewById(R.id.avatar);
         mTextView = (TextView) view.findViewById(android.R.id.text1);
       }
 

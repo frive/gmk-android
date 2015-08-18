@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 
 import java.util.ArrayList;
 
@@ -68,15 +68,10 @@ public class PlaceRecyclerViewAdapter extends
     // Get the data model based on position
     final Place place = places.get(position);
 
-    Drawable imgPhoto = MaterialDrawableBuilder.with(mContext)
-        .setIcon(MaterialDrawableBuilder.IconValue.IMAGE_AREA)
-        .setColor(mContext.getResources().getColor(R.color.dim_foreground_disabled_material_light))
-        .build();
-
-    Drawable imgFave = MaterialDrawableBuilder.with(mContext)
-        .setIcon(MaterialDrawableBuilder.IconValue.HEART)
-        .setColor(mContext.getResources().getColor(R.color.primary_accent))
-        .build();
+    IconDrawable imgPhoto = new IconDrawable(mContext, MaterialIcons.md_image);
+    IconDrawable imgFave = new IconDrawable(mContext, MaterialIcons.md_favorite)
+        .color(mContext.getResources().getColor(R.color.primary_accent))
+        .actionBarSize();
 
     // Set item views based on the data model
     holder.tvName.setText(place.getName());
