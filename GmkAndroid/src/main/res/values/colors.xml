@@ -16,6 +16,8 @@
   <color name="disabled">#61000000</color>
   <color name="divider">#1F000000</color>
 
+  <color name="facebook">#3b5998</color>
+  <color name="twitter">#55acee</color>
 
   <!-- google's material design colours from
 http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
