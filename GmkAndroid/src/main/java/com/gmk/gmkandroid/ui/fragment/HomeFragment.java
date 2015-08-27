@@ -16,12 +16,15 @@ import android.util.Log;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 import com.gmk.gmkandroid.model.Cheeses;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.widget.IconTextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +34,15 @@ import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.ui.activity.SearchActivity;
 
 public class HomeFragment extends Fragment {
+  //@Bind(R.id.tbSearch) Toolbar tbSearch;
   @Bind(R.id.homeListView) RecyclerView homeListView;
-  @Bind(R.id.editText) EditText editText;
+  @Bind(R.id.txtSearch) EditText txtSearch;
 
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_home, container, false);
-
     ButterKnife.bind(this, view);
 
     homeListView.setLayoutManager(new LinearLayoutManager(homeListView.getContext()));
@@ -130,7 +133,7 @@ public class HomeFragment extends Fragment {
     }
   }
 
-  @OnClick(R.id.editText) void goSearch() {
+  @OnClick(R.id.txtSearch) void goSearch() {
     Intent intent = new Intent(getActivity(), SearchActivity.class);
     startActivity(intent);
   }
