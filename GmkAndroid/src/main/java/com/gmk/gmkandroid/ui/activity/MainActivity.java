@@ -1,12 +1,15 @@
 package com.gmk.gmkandroid.ui.activity;
 
 import android.os.Bundle;
-import android.graphics.Color;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,10 +24,13 @@ import com.gmk.gmkandroid.ui.fragment.EventFragment;
 import com.gmk.gmkandroid.ui.fragment.GroupFragment;
 
 public class MainActivity extends BaseActivity {
+  private int mIconTabColor;
+
   @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
-  @Bind(R.id.nav_main) NavigationView navigationView;
-  @Bind(R.id.vpager_main) ViewPager viewPager;
-  @Bind(R.id.tab_main) TabLayout tabLayout;
+  @Bind(R.id.navView) NavigationView navView;
+  @Bind(R.id.toolbar) Toolbar toolbar;
+  @Bind(R.id.viewPager) ViewPager viewPager;
+  @Bind(R.id.tabLayout) TabLayout tabLayout;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +38,19 @@ public class MainActivity extends BaseActivity {
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
 
-    if (navigationView != null) {
-      setupDrawerContent(navigationView);
+    mIconTabColor = getResources().getColor(R.color.white);
+
+    setSupportActionBar(toolbar);
+
+    final ActionBar ab = getSupportActionBar();
+    ab.setHomeAsUpIndicator(
+        new IconDrawable(this, MaterialIcons.md_menu)
+            .actionBarSize().color(mIconTabColor));
+    ab.setDisplayHomeAsUpEnabled(true);
+    ab.setTitle("");
+
+    if (navView != null) {
+      setupDrawerContent(navView);
     }
 
     if (viewPager != null) {
@@ -49,12 +66,30 @@ public class MainActivity extends BaseActivity {
   }
 
   @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_main, menu);
+
+    menu.getItem(0).setIcon(
+        new IconDrawable(this, MaterialIcons.md_search)
+            .actionBarSize().color(mIconTabColor));
+
+    return true;
+  }
+
+  @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
         drawerLayout.openDrawer(GravityCompat.START);
         return true;
+
+      case R.id.mnuSearch:
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+
+        return true;
     }
+
     return super.onOptionsItemSelected(item);
   }
 
@@ -71,19 +106,17 @@ public class MainActivity extends BaseActivity {
   }
 
   private void setupTab() {
-    int iconColor = Color.WHITE;
-
     IconDrawable homeIcon = new IconDrawable(this, MaterialIcons.md_home)
-        .color(iconColor)
+        .color(mIconTabColor)
         .actionBarSize();
     IconDrawable faveIcon = new IconDrawable(this, MaterialIcons.md_favorite)
-        .color(iconColor)
+        .color(mIconTabColor)
         .actionBarSize();
     IconDrawable eventIcon = new IconDrawable(this, MaterialIcons.md_event)
-        .color(iconColor)
+        .color(mIconTabColor)
         .actionBarSize();
     IconDrawable groupIcon = new IconDrawable(this, MaterialIcons.md_group)
-        .color(iconColor)
+        .color(mIconTabColor)
         .actionBarSize();
 
     // Give the TabLayout the ViewPager
@@ -94,7 +127,5 @@ public class MainActivity extends BaseActivity {
     tabLayout.getTabAt(1).setIcon(faveIcon);
     tabLayout.getTabAt(2).setIcon(eventIcon);
     tabLayout.getTabAt(3).setIcon(groupIcon);
-
-    tabLayout.setBackgroundColor(getResources().getColor(R.color.primary));
   }
 }

@@ -1,42 +1,29 @@
 package com.gmk.gmkandroid.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import android.widget.EditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnTextChanged;
-
-import com.gmk.gmkandroid.model.Cheeses;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.widget.IconTextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import com.gmk.gmkandroid.R;
-import com.gmk.gmkandroid.ui.activity.SearchActivity;
+import com.gmk.gmkandroid.model.Cheeses;
 
 public class HomeFragment extends Fragment {
-  //@Bind(R.id.tbSearch) Toolbar tbSearch;
   @Bind(R.id.homeListView) RecyclerView homeListView;
-  @Bind(R.id.txtSearch) EditText txtSearch;
 
   @Nullable
   @Override
@@ -131,11 +118,6 @@ public class HomeFragment extends Fragment {
     public int getItemCount() {
       return mValues.size();
     }
-  }
-
-  @OnClick(R.id.txtSearch) void goSearch() {
-    Intent intent = new Intent(getActivity(), SearchActivity.class);
-    startActivity(intent);
   }
 
 }
