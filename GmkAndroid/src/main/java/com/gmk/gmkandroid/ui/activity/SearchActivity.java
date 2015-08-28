@@ -74,18 +74,9 @@ public class SearchActivity extends BaseActivity {
     // That's all!
   }
 
-  private void fetchPlaces(String query) {
+  private void fetchPlaces(Map qs) {
     // Show progress bar before making network request
     progressBar.setVisibility(ProgressBar.VISIBLE);
-
-    Map qs  = new HashMap();
-    qs.put("lat", 14.42);
-    qs.put("lon", 121);
-    qs.put("distance", 3);
-
-    if (!query.isEmpty()) {
-      qs.put("q", query);
-    }
 
     app.gmkAPI.searchPlacesJson(qs, new Callback<Response>() {
       @Override public void success(Response resp, Response response) {
@@ -147,11 +138,17 @@ public class SearchActivity extends BaseActivity {
     // Handle action bar item clicks here. The action bar will
     // automatically handle clicks on the Home/Up button, so long
     // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
+    switch (item.getItemId()) {
+      case R.id.mnuMyLocation:
+        Map qs  = new HashMap();
+        qs.put("lat", 14.42);
+        qs.put("lon", 121);
+        qs.put("distance", 3);
 
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.svPlaces) {
-      return true;
+        // Fetch the data remotely
+        fetchPlaces(qs);
+
+        return true;
     }
 
     return super.onOptionsItemSelected(item);
@@ -168,8 +165,14 @@ public class SearchActivity extends BaseActivity {
 
       svPlaces.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
         @Override public boolean onQueryTextSubmit(String query) {
+          Map qs  = new HashMap();
+
+          if (!query.isEmpty()) {
+            qs.put("q", query);
+          }
+
           // Fetch the data remotely
-          fetchPlaces(query);
+          fetchPlaces(qs);
           // Reset SearchView
           svPlaces.clearFocus();
           svPlaces.setQuery("", false);
