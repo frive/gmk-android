@@ -2,6 +2,7 @@ package com.gmk.gmkandroid.ui.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -141,8 +142,12 @@ public class SearchActivity extends BaseActivity {
     switch (item.getItemId()) {
       case R.id.mnuMyLocation:
         Map qs  = new HashMap();
-        qs.put("lat", 14.42);
-        qs.put("lon", 121);
+
+        if (app.myLocation != null) {
+          qs.put("lat", app.myLocation.getLatitude());
+          qs.put("lon", app.myLocation.getLongitude());
+        }
+
         qs.put("distance", 3);
 
         // Fetch the data remotely
