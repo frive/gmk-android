@@ -1,4 +1,15 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
+  }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.hugo'
 
 repositories {
   mavenCentral()
@@ -21,12 +32,19 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+
+  // CouchBase Lite --
+  // workaround for "duplicate files during packaging of APK" issue
+  // see https://groups.google.com/d/msg/adt-dev/bl5Rc4Szpzg/wC8cylTWuIEJ
+  packagingOptions {
+    exclude 'META-INF/ASL2.0'
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/NOTICE'
+  }
 }
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-
-  compile 'com.google.code.gson:gson:2.3.1'
 
   // Android Support Libs
   compile 'com.android.support:design:22.2.1'
@@ -54,6 +72,9 @@ dependencies {
   // Background Processing
   compile 'com.path:android-priority-jobqueue:1.1.2'
 
+  // Storage
+  compile 'com.couchbase.lite:couchbase-lite-android:1.1.0'
+
   // Location
   compile 'com.mapzen.android:lost:1.0.1'
 
@@ -61,4 +82,8 @@ dependencies {
   compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:0.7.4@aar'){
     transitive=true
   }
+
+  // Utils
+  compile 'com.google.code.gson:gson:2.3.1'
+  compile 'com.orhanobut:logger:1.11'
 }

@@ -2,7 +2,6 @@ package com.gmk.gmkandroid.ui.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.couchbase.lite.LiveQuery;
+import com.gmk.gmkandroid.adapter.SearchHistoryAdapter;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import org.json.JSONException;
@@ -23,6 +24,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import com.cocoahero.android.geojson.util.StreamUtils;
+import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ import java.util.Map;
 import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.GmkApplication;
 import com.gmk.gmkandroid.model.Place;
+import com.gmk.gmkandroid.document.SearchHistory;
 import com.gmk.gmkandroid.adapter.PlaceRecyclerViewAdapter;
 
 public class SearchActivity extends BaseActivity {
@@ -43,6 +46,7 @@ public class SearchActivity extends BaseActivity {
   @Bind(R.id.toolbar) Toolbar toolbar;
   @Bind(R.id.svPlaces) SearchView svPlaces;
   @Bind(R.id.rvSearchResult) RecyclerView rvSearchResult;
+  @Bind(R.id.rvSearchHistory) RecyclerView rvSearchHistory;
   @Bind(R.id.progressBar) ProgressBar progressBar;
   @Bind(R.id.tvNoResult) TextView tvNoResult;
 
@@ -53,14 +57,11 @@ public class SearchActivity extends BaseActivity {
 
     app = (GmkApplication) getApplication();
 
-    setSupportActionBar(toolbar);
-
     final ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
-    ab.setTitle("");
+    ab.setTitle(getString(R.string.title_activity_search));
 
-    // Explicitly added SearchView in layout due to bug when inflated on a menu
-    // https://code.google.com/p/android/issues/detail?id=58251
+    setupSearchHistory();
     setupSearchView();
 
     mPlaces = new ArrayList<Place>();
@@ -76,6 +77,17 @@ public class SearchActivity extends BaseActivity {
   }
 
   private void fetchPlaces(Map qs) {
+    // Save queries
+    if (qs.get("q") != null) {
+      try {
+        Map<String, Object> props = new HashMap<>();
+        props.put("q", qs.get("q"));
+        SearchHistory.createSearchQuery(app.couch, props);
+      } catch (Exception e) {
+        Logger.e(e, "");
+      }
+    }
+
     // Show progress bar before making network request
     progressBar.setVisibility(ProgressBar.VISIBLE);
 
@@ -127,9 +139,9 @@ public class SearchActivity extends BaseActivity {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_search, menu);
 
-    menu.findItem(R.id.mnuMyLocation).setIcon(
-        new IconDrawable(this, MaterialIcons.md_my_location).actionBarSize()
-            .colorRes(R.color.md_grey_800));
+    menu.findItem(R.id.mnuMyLocation)
+        .setIcon(
+            new IconDrawable(this, MaterialIcons.md_my_location).actionBarSize().colorRes(R.color.md_grey_800));
 
     return true;
   }
@@ -159,6 +171,17 @@ public class SearchActivity extends BaseActivity {
     return super.onOptionsItemSelected(item);
   }
 
+  private void setupSearchHistory() {
+    rvSearchHistory.setHasFixedSize(true);
+    LiveQuery liveQuery = SearchHistory.getQuery(app.couch).toLiveQuery();
+
+    SearchHistoryAdapter mAdapter = new SearchHistoryAdapter(this, liveQuery);
+
+    rvSearchHistory.setAdapter(mAdapter);
+    LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+    rvSearchHistory.setLayoutManager(mLayoutManager);
+  }
+
   private void setupSearchView() {
     if (svPlaces != null) {
       SearchManager searchManager =
@@ -166,7 +189,6 @@ public class SearchActivity extends BaseActivity {
 
       svPlaces.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
       svPlaces.setIconifiedByDefault(false);
-      svPlaces.setQueryHint(getString(R.string.main_search_hint));
 
       svPlaces.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
         @Override public boolean onQueryTextSubmit(String query) {
@@ -178,6 +200,7 @@ public class SearchActivity extends BaseActivity {
 
           // Fetch the data remotely
           fetchPlaces(qs);
+
           // Reset SearchView
           svPlaces.clearFocus();
           svPlaces.setQuery("", false);
