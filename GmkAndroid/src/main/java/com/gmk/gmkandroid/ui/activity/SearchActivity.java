@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.couchbase.lite.LiveQuery;
 
 import com.gmk.gmkandroid.GmkApplication;
@@ -77,5 +78,12 @@ public class SearchActivity extends BaseActivity {
         }
       });
     }
+  }
+
+  @OnClick(R.id.cvMyLocation)
+  void myLocationClicked() {
+    Intent i = new Intent(getApplicationContext(), SearchResultsActivity.class);
+    i.putExtra("myLocationQuery", true);
+    startActivity(i);
   }
 }

@@ -34,6 +34,7 @@ public class SearchResultsActivity extends BaseActivity {
   private ArrayList<Place> mPlaces;
   private ActionBar ab;
   private String query;
+  private boolean myLocationQuery;
 
   @Bind(R.id.rvSearchResult) RecyclerView rvSearchResult;
   @Bind(R.id.progressBar) ProgressBar progressBar;
@@ -46,14 +47,17 @@ public class SearchResultsActivity extends BaseActivity {
     ButterKnife.bind(this);
 
     query = getIntent().getStringExtra("q");
+    myLocationQuery = getIntent().getBooleanExtra("myLocationQuery", false);
 
     // Save query
-    try {
-      Map<String, Object> props = new HashMap<>();
-      props.put("q", query);
-      SearchHistory.createSearchQuery(app.couch, props);
-    } catch (Exception e) {
-      Logger.e(e, "");
+    if (query != null && !query.isEmpty()) {
+      try {
+        Map<String, Object> props = new HashMap<>();
+        props.put("q", query);
+        SearchHistory.createSearchQuery(app.couch, props);
+      } catch (Exception e) {
+        Logger.e(e, "");
+      }
     }
 
     app = (GmkApplication) getApplication();
@@ -78,7 +82,19 @@ public class SearchResultsActivity extends BaseActivity {
     super.onStart();
 
     Map qs  = new HashMap();
-    qs.put("q", query);
+
+    if (query != null && !query.isEmpty()) {
+      qs.put("q", query);
+    }
+
+    if (myLocationQuery) {
+      if (app.myLocation != null) {
+        qs.put("lat", app.myLocation.getLatitude());
+        qs.put("lon", app.myLocation.getLongitude());
+      }
+
+      qs.put("distance", 3);
+    }
 
     fetchPlaces(qs);
   }
@@ -105,6 +121,10 @@ public class SearchResultsActivity extends BaseActivity {
 
             ab.setTitle(query);
             ab.setSubtitle(resultsCount + " results");
+
+            if (myLocationQuery) {
+              ab.setTitle(getString(R.string.current_location));
+            }
 
             if (resultsCount == 0) {
               tvNoResult.setVisibility(TextView.VISIBLE);

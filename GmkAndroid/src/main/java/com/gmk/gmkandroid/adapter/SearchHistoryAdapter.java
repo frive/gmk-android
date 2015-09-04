@@ -1,7 +1,7 @@
 package com.gmk.gmkandroid.adapter;
 
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +10,20 @@ import android.widget.TextView;
 import butterknife.Bind;
 import com.couchbase.lite.Document;
 import com.couchbase.lite.LiveQuery;
-import com.couchbase.lite.QueryEnumerator;
 import butterknife.ButterKnife;
-import com.orhanobut.logger.Logger;
 
 import com.gmk.gmkandroid.R;
-import com.gmk.gmkandroid.adapter.LiveQueryRecyclerAdapter;
+import com.gmk.gmkandroid.ui.activity.SearchResultsActivity;
 
 public class SearchHistoryAdapter extends
     LiveQueryRecyclerAdapter<SearchHistoryAdapter.ViewHolder> {
 
+  private Context mContext;
+
   public SearchHistoryAdapter(Context context, LiveQuery liveQuery) {
     super(context, liveQuery);
+
+    this.mContext = context;
   }
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -51,11 +53,9 @@ public class SearchHistoryAdapter extends
     holder.tvQuery.setText((String) doc.getProperty("q"));
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        Logger.v((String) doc.getProperty("_id"));
-        //Intent intent = new Intent(mContext, PlaceActivity.class);
-        //intent.putExtra("place", place);
-        //
-        //mContext.startActivity(intent);
+        Intent i = new Intent(mContext, SearchResultsActivity.class);
+        i.putExtra("q", holder.tvQuery.getText());
+        mContext.startActivity(i);
       }
     });
   }

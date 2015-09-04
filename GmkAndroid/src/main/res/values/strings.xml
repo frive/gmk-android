@@ -13,6 +13,7 @@
 
   <!--Hints-->
   <string name="main_search_hint">Search</string>
+  <string name="current_location">Current Location</string>
 
   <string name="message.search.noresults">No results found</string>
 
