@@ -40,12 +40,23 @@
     </activity>
 
     <activity
-        android:name=".ui.activity.PlaceActivity"
+        android:name=".ui.activity.SearchResultsActivity"
         android:parentActivityName=".ui.activity.SearchActivity"
+        android:theme="@style/Theme.App"
         >
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
           android:value=".ui.activity.SearchActivity"
+          />
+    </activity>
+
+    <activity
+        android:name=".ui.activity.PlaceActivity"
+        android:parentActivityName=".ui.activity.SearchResultsActivity"
+        >
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value=".ui.activity.SearchResultsActivity"
           />
     </activity>
   </application>
