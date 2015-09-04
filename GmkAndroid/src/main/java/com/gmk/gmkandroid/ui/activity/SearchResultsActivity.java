@@ -1,14 +1,16 @@
 package com.gmk.gmkandroid.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.gmk.gmkandroid.document.SearchHistory;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.orhanobut.logger.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,29 +27,33 @@ import java.util.Map;
 import com.gmk.gmkandroid.R;
 import com.gmk.gmkandroid.GmkApplication;
 import com.gmk.gmkandroid.model.Place;
-import com.gmk.gmkandroid.adapter.PlaceRecyclerViewAdapter;
+import com.gmk.gmkandroid.document.SearchHistory;
+import com.gmk.gmkandroid.ui.fragment.SearchResultListFragment;
 
 public class SearchResultsActivity extends BaseActivity {
   private GmkApplication app;
 
-  private PlaceRecyclerViewAdapter mAdapter;
   private ArrayList<Place> mPlaces;
-  private ActionBar ab;
   private String query;
   private boolean myLocationQuery;
+  private boolean mToggleMap = false;
 
-  @Bind(R.id.rvSearchResult) RecyclerView rvSearchResult;
+  private ActionBar ab;
+
   @Bind(R.id.progressBar) ProgressBar progressBar;
   @Bind(R.id.tvNoResult) TextView tvNoResult;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_search_results);
     ButterKnife.bind(this);
 
     query = getIntent().getStringExtra("q");
     myLocationQuery = getIntent().getBooleanExtra("myLocationQuery", false);
+
+    app = (GmkApplication) getApplication();
+
+    mPlaces = new ArrayList<Place>();
 
     // Save query
     if (query != null && !query.isEmpty()) {
@@ -56,25 +62,12 @@ public class SearchResultsActivity extends BaseActivity {
         props.put("q", query);
         SearchHistory.createSearchQuery(app.couch, props);
       } catch (Exception e) {
-        Logger.e(e, "");
+        Logger.e(e, "Create document error");
       }
     }
 
-    app = (GmkApplication) getApplication();
-
     ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
-
-    mPlaces = new ArrayList<Place>();
-
-    // Lookup the recyclerview in activity layout
-    // Create adapter passing in the sample user data
-    mAdapter = new PlaceRecyclerViewAdapter(this, mPlaces);
-    // Attach the adapter to the recyclerview to populate items
-    rvSearchResult.setAdapter(mAdapter);
-    // Set layout manager to position the items
-    rvSearchResult.setLayoutManager(new LinearLayoutManager(this));
-    // That's all!
   }
 
   @Override
@@ -88,15 +81,44 @@ public class SearchResultsActivity extends BaseActivity {
     }
 
     if (myLocationQuery) {
+      qs.put("distance", 3);
+
       if (app.myLocation != null) {
         qs.put("lat", app.myLocation.getLatitude());
         qs.put("lon", app.myLocation.getLongitude());
       }
-
-      qs.put("distance", 3);
     }
 
     fetchPlaces(qs);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.menu_search_results, menu);
+
+    menu.findItem(R.id.mnuToggleMap).setIcon(
+        new IconDrawable(this, MaterialIcons.md_map).actionBarSize());
+
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.mnuToggleMap:
+
+        if (mToggleMap) {
+          mToggleMap = false;
+          attachSearchResultsListFragment();
+        } else {
+          mToggleMap = true;
+        }
+
+        return true;
+    }
+
+    return super.onOptionsItemSelected(item);
   }
 
   private void fetchPlaces(Map qs) {
@@ -133,25 +155,31 @@ public class SearchResultsActivity extends BaseActivity {
 
               // Remove all books from the adapter
               mPlaces.clear();
-
               // Load model objects into the adapter
               mPlaces.addAll(places);
 
-              mAdapter.notifyDataSetChanged();
+              attachSearchResultsListFragment();
             }
           }
         } catch (IOException e) {
-          e.printStackTrace();
+          Logger.e(e, "IO error");
         } catch (JSONException e) {
           // Invalid JSON format, show appropriate error.
-          e.printStackTrace();
+          Logger.e(e, "Invalid JSON format");
         }
       }
 
       @Override public void failure(RetrofitError retrofitError) {
         // Log error here since request failed
-        throw retrofitError;
+        Logger.e(retrofitError, "Retrofit error");
       }
     });
+  }
+
+  private void attachSearchResultsListFragment() {
+    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    SearchResultListFragment fragment = SearchResultListFragment.newInstance(mPlaces);
+    ft.replace(R.id.frameLayout, fragment);
+    ft.commit();
   }
 }
